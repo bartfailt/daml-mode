@@ -1,0 +1,14 @@
+#!/bin/sh
+
+xhost +
+
+guix shell --container --network \
+     --no-cwd \
+     --preserve='^DISPLAY$' \
+     --expose=/run/current-system/profile/bin/env=/usr/bin/env \
+     --share=/tmp/.X11-unix \
+     --share=container=$HOME \
+     --share=../lisp=$HOME/daml-mode/lisp \
+     --manifest=manifest.scm \
+     -- \
+     bash --login

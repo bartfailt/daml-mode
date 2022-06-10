@@ -1,0 +1,30 @@
+* daml-mode
+  Emacs mode for editing [[https://daml.com][daml]] projects, based on [[https://github.com/haskell/haskell-mode][haskell-mode]].
+
+  It supports [[https://emacs-lsp.github.io/lsp-mode/][lsp-mode]]
+** Installation
+*** Using straight.el
+    Using [[https://github.com/radian-software/straight.el][straight]], it will install all dependencies:
+   
+    #+begin_src elisp
+      (straight-use-package
+       `(daml-mode :type git :host github :repo "bartfailt/daml-mode"))
+
+      (require 'daml-mode)
+      (require 'daml-lsp)
+      (add-hook 'daml-mode-hook #'lsp)
+    #+end_src
+*** Manual checkout
+    Clone this repository, and add the ~lisp~ folder to the load-path
+    in emacs. You also need to install ~haskell-mode~ and ~lsp-mode~.
+
+    #+begin_src elisp
+      (package-install haskell-mode)
+      (package-install lsp-mode)
+
+      (add-to-list 'load-path "~/daml-mode")
+      (require 'daml-mode)
+      (require 'daml-lsp)
+
+      (add-hook 'daml-mode-hook #'lsp)
+    #+end_src
