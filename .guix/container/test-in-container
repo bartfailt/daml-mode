@@ -1,6 +1,6 @@
 #!/bin/sh
 
-TERM=xterm
+export TERM=xterm
 
 NOCOL='\e[0m'    # Text Reset
 GREEN='\e[0;32m'
@@ -14,4 +14,12 @@ else
     curl -sSL https://get.daml.com/ | /bin/sh 
 fi
 
+if [[ -d "$HOME/quickstart-finance" ]]
+then
+    cd quickstart-finance
+else
+    daml new quickstart-finance --template=quickstart-finance
+    cd quickstart-finance/
+    ./get-dependencies.sh
+fi
 emacs

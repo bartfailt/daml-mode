@@ -1,1 +1,3 @@
 *.elc
+/.guix/container/quickstart-finance/
+/.guix/container/.emacs.d/eln-cache/
