@@ -19,7 +19,10 @@
 (require 'cl-lib)
 
 (defcustom daml-font-lock-keywords
-  '("template" "ensure" "daml" "observer" "signatory" "agreement" "controller" "can" "nonconsuming" "return" "with" "mwith")
+  '("template" "ensure" "daml" "observer" "signatory" "agreement"
+    "controller" "can" "nonconsuming" "with" "mwith"
+    "choice" "interface" "key" "maintainer" "exception" "for"
+    "viewtype" "magreement" "preconsuming" "postconsuming" "message")
   "Identifiers treated as reserved keywords in daml and are not
 keywords for Haskell."
   :group 'daml
@@ -35,7 +38,7 @@ daml specific syntax."
   (append (haskell-font-lock-keywords)
           `(("\\<\\(submit\\|submitMustFail\\|fetch\\|exercise\\|create\\|test\\)\\>"
              0 font-lock-function-name-face)
-            ("\\<\\(m?with\\)\\>"
+            ("\\<\\(m?with\\|choice\\|template\\|interface\\|key\\|maintainer\\|daml\\|exception\\|for\\|viewtype\\|m?agreement\\|controller\\|can\\|ensure\\|signatory\\|nonconsuming\\|observer\\|preconsuming\\|postconsuming\\|message     )\\>"
              0 font-lock-builtin-face))))
 
 (define-derived-mode daml-mode haskell-mode "daml" "Major mode for daml."
