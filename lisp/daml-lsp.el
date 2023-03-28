@@ -10,6 +10,7 @@
 
 (require 'lsp-mode)
 (require 'shr)
+(require 'dash)
 (require 'url-util)
 
 ;;;###autoload
@@ -62,11 +63,16 @@
                         (url-unhex-string script-uri)))))))
 
 
+(lsp-interface (DAMLVirtualResourceChange (:uri :contents) nil)
+               (DAMLVirtualResourceNote (:uri :note) nil))
+
 (defun lsp-daml--virtualResource-note (workspace params)
-  (lsp-daml--display-virtualResource (ht-get params "uri") (ht-get params "note")))
+  (-let [(&DAMLVirtualResourceNote :uri :note) params]
+    (lsp-daml--display-virtualResource uri note)))
 
 (defun lsp-daml--virtualResource-change (workspace params)
-  (lsp-daml--display-virtualResource (ht-get params "uri") (ht-get params "contents")))
+  (-let [(&DAMLVirtualResourceChange :uri :contents) params]
+    (lsp-daml--display-virtualResource uri contents)))
 
 (defun lsp-daml--display-virtualResource (uri contents)
   (let* ((result-buffer-name (lsp-daml--script-result-buffer-name uri))
@@ -79,14 +85,6 @@
           (erase-buffer)
           (shr-insert-document dom))))))
 
-(defun lsp-daml--report (workspace params)
-  (let ((value (ht-get params "value")))
-    (message "daml progress... %s"
-             (pcase (ht-get value "kind")
-               ("begin" (ht-get value "title"))
-               ("report" (ht-get value "message"))
-               ("end" "Done processing")))))
-
 (lsp-register-client
  (make-lsp-client :new-connection (lsp-stdio-connection (append '("daml" "ide") daml-lsp-extra-arguments))
                   :major-modes '(daml-mode)
@@ -97,10 +95,7 @@
                   :notification-handlers
                   (lsp-ht
                    ("daml/virtualResource/didChange" #'lsp-daml--virtualResource-change)
-                   ("daml/virtualResource/note" #'lsp-daml--virtualResource-note)
-                   ("window/progress/start" #'lsp-daml--report)
-                   ("window/progress/report" #'lsp-daml--report)
-                   ("window/progress/done" #'lsp-daml--report))))
+                   ("daml/virtualResource/note" #'lsp-daml--virtualResource-note))))
 
 (provide 'daml-lsp)
 ;;; daml-lsp.el ends here
