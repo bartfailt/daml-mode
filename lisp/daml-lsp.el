@@ -1,6 +1,7 @@
 ;;; daml-lsp.el --- LSP client definition for daml
 
 ;; Copyright (C) 2016-2022 Bártfai Tamás
+;; SPDX-License-Identifier: GPL-3.0-or-later
 
 ;;; Commentary:
 

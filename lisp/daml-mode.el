@@ -1,6 +1,7 @@
 ;;; daml-mode.el --- Emacs mode for daml
 
 ;; Copyright (C) 2016-2022 Bártfai Tamás
+;; SPDX-License-Identifier: GPL-3.0-or-later
 
 ;; Author: Joseph Collard
 ;; Package-Requires: ((haskell-mode "16.1") (lsp-mode "7.0") (emacs "25.1"))
