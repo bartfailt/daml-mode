@@ -17,12 +17,12 @@ INIT_PACKAGES="(progn \
 all: compile package-lint clean-elc
 
 package-lint:
-	${EMACS} -Q --eval ${INIT_PACKAGES} --eval '(setq package-lint-main-file "lisp/daml-mode.el")' -batch -f package-lint-batch-and-exit lisp/daml-mode.el
+	${EMACS} -Q --eval ${INIT_PACKAGES} --eval '(setq package-lint-main-file "lisp/daml-mode.el")' -batch -f package-lint-batch-and-exit lisp/daml-mode.el lisp/daml-lsp.el
 
 compile: clean-elc
-	${EMACS} -Q -eval ${INIT_PACKAGES} -L . -batch -f batch-byte-compile lisp/daml-mode.el
+	${EMACS} -Q -eval ${INIT_PACKAGES} -L . -batch -f batch-byte-compile lisp/daml-mode.el lisp/daml-lsp.el
 
 clean-elc:
-	rm -f lisp/daml-mode.elc
+	rm -f lisp/daml-mode.elc lisp/daml-lsp.elc
 
 .PHONY: all compile clean-elc package-lint
