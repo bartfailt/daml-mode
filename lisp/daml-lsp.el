@@ -1,6 +1,7 @@
 ;;; daml-lsp.el --- LSP client definition for daml
 
 ;; Copyright (C) 2016-2022 Bártfai Tamás
+;; SPDX-License-Identifier: GPL-3.0-or-later
 
 ;;; Commentary:
 
@@ -27,6 +28,7 @@
 (add-hook 'kill-buffer-hook #'lsp-daml--virtualResource-kill-hook)
 
 (defun lsp-daml--virtualResource-kill-hook ()
+  "Run when buffer closed to free up LSP resources."
   (when (string-prefix-p "*daml-script " (buffer-name))
 
     (message "lsp-daml--virtualResource-kill-hook")
@@ -40,10 +42,11 @@
                    :text ""))))))
 
 (defun lsp-daml--script-result-buffer-name (script-uri)
+  "Generate a name for result buffer from running daml script SCRIPT-URI."
   (format "*daml-script %s" (url-unhex-string script-uri)))
 
 (lsp-defun lsp-daml--show-resource ((&Command :arguments?))
-  "Execute the show daml script action"
+  "Execute the show daml script action."
   (interactive)
   (let* ((script-uri (elt arguments? 1))
          (result-buf-name (lsp-daml--script-result-buffer-name script-uri)))
@@ -67,14 +70,17 @@
                (DAMLVirtualResourceNote (:uri :note) nil))
 
 (defun lsp-daml--virtualResource-note (workspace params)
+  "Display a virtual resource note with PARAMS.  WORKSPACE is ignored."
   (-let [(&DAMLVirtualResourceNote :uri :note) params]
     (lsp-daml--display-virtualResource uri note)))
 
 (defun lsp-daml--virtualResource-change (workspace params)
+  "Display a virtual resource change with PARAMS.  WORKSPACE is ignored."
   (-let [(&DAMLVirtualResourceChange :uri :contents) params]
     (lsp-daml--display-virtualResource uri contents)))
 
 (defun lsp-daml--display-virtualResource (uri contents)
+  "Display virtual resource info for URI and CONTENTS."
   (let* ((result-buffer-name (lsp-daml--script-result-buffer-name uri))
          (dom (with-temp-buffer
                 (insert contents)

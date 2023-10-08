@@ -1,6 +1,7 @@
 ;;; daml-mode.el --- Emacs mode for daml
 
 ;; Copyright (C) 2016-2022 Bártfai Tamás
+;; SPDX-License-Identifier: GPL-3.0-or-later
 
 ;; Author: Joseph Collard
 ;; Package-Requires: ((haskell-mode "16.1") (lsp-mode "7.0") (emacs "25.1"))
@@ -23,8 +24,8 @@
     "controller" "can" "nonconsuming" "with" "mwith"
     "choice" "interface" "key" "maintainer" "exception" "for"
     "viewtype" "magreement" "preconsuming" "postconsuming" "message")
-  "Identifiers treated as reserved keywords in daml and are not
-keywords for Haskell."
+  "Identifiers treated as reserved keywords in daml.
+They are not keywords for Haskell."
   :group 'daml
   :type '(repeat string))
 
@@ -33,8 +34,8 @@ keywords for Haskell."
  (cl-remove-duplicates (append haskell-font-lock-keywords daml-font-lock-keywords)))
 
 (defun daml-font-lock-keywords ()
-  "Generate font lock keywords for daml. Mostly haskell, with some
-daml specific syntax."
+  "Generate font lock keywords for daml.
+Mostly haskell, with some daml specific syntax."
   (append (haskell-font-lock-keywords)
           `(("\\<\\(submit\\|submitMustFail\\|fetch\\|exercise\\|create\\|test\\)\\>"
              0 font-lock-function-name-face)
