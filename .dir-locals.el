@@ -1,2 +1,2 @@
 ((emacs-lisp-mode
-  (package-lint-main-file . "lisp/daml-mode.el")))
+  (package-lint-main-file . "daml-mode.el")))

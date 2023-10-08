@@ -25,13 +25,13 @@
   :group 'tools)
 
 (add-to-list 'lsp-language-id-configuration '(daml-mode . "daml"))
-(add-hook 'kill-buffer-hook #'lsp-daml--virtualResource-kill-hook)
+(add-hook 'kill-buffer-hook #'daml-lsp--virtualResource-kill-hook)
 
-(defun lsp-daml--virtualResource-kill-hook ()
+(defun daml-lsp--virtualResource-kill-hook ()
   "Run when buffer closed to free up LSP resources."
   (when (string-prefix-p "*daml-script " (buffer-name))
 
-    (message "lsp-daml--virtualResource-kill-hook")
+    (message "daml-lsp--virtualResource-kill-hook")
     (let ((script-uri (substring (buffer-name) 13)))
       (lsp-notify
        "textDocument/didClose"
@@ -41,15 +41,15 @@
                    :version 0
                    :text ""))))))
 
-(defun lsp-daml--script-result-buffer-name (script-uri)
+(defun daml-lsp--script-result-buffer-name (script-uri)
   "Generate a name for result buffer from running daml script SCRIPT-URI."
   (format "*daml-script %s" (url-unhex-string script-uri)))
 
-(lsp-defun lsp-daml--show-resource ((&Command :arguments?))
+(lsp-defun daml-lsp--show-resource ((&Command :arguments?))
   "Execute the show daml script action."
   (interactive)
   (let* ((script-uri (elt arguments? 1))
-         (result-buf-name (lsp-daml--script-result-buffer-name script-uri)))
+         (result-buf-name (daml-lsp--script-result-buffer-name script-uri)))
      (lsp-notify
       "textDocument/didOpen"
       (list :textDocument
@@ -69,19 +69,19 @@
 (lsp-interface (DAMLVirtualResourceChange (:uri :contents) nil)
                (DAMLVirtualResourceNote (:uri :note) nil))
 
-(defun lsp-daml--virtualResource-note (workspace params)
+(defun daml-lsp--virtualResource-note (workspace params)
   "Display a virtual resource note with PARAMS.  WORKSPACE is ignored."
   (-let [(&DAMLVirtualResourceNote :uri :note) params]
-    (lsp-daml--display-virtualResource uri note)))
+    (daml-lsp--display-virtualResource uri note)))
 
-(defun lsp-daml--virtualResource-change (workspace params)
+(defun daml-lsp--virtualResource-change (workspace params)
   "Display a virtual resource change with PARAMS.  WORKSPACE is ignored."
   (-let [(&DAMLVirtualResourceChange :uri :contents) params]
-    (lsp-daml--display-virtualResource uri contents)))
+    (daml-lsp--display-virtualResource uri contents)))
 
-(defun lsp-daml--display-virtualResource (uri contents)
+(defun daml-lsp--display-virtualResource (uri contents)
   "Display virtual resource info for URI and CONTENTS."
-  (let* ((result-buffer-name (lsp-daml--script-result-buffer-name uri))
+  (let* ((result-buffer-name (daml-lsp--script-result-buffer-name uri))
          (dom (with-temp-buffer
                 (insert contents)
                 (libxml-parse-html-region (point-min) (point-max)))))
@@ -97,11 +97,11 @@
                   :priority -1
                   :multi-root nil
                   :server-id 'daml-ls
-                  :action-handlers (lsp-ht ("daml.showResource" #'lsp-daml--show-resource))
+                  :action-handlers (lsp-ht ("daml.showResource" #'daml-lsp--show-resource))
                   :notification-handlers
                   (lsp-ht
-                   ("daml/virtualResource/didChange" #'lsp-daml--virtualResource-change)
-                   ("daml/virtualResource/note" #'lsp-daml--virtualResource-note))))
+                   ("daml/virtualResource/didChange" #'daml-lsp--virtualResource-change)
+                   ("daml/virtualResource/note" #'daml-lsp--virtualResource-note))))
 
 (provide 'daml-lsp)
 ;;; daml-lsp.el ends here
