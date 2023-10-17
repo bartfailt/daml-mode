@@ -1,10 +1,11 @@
-;;; daml-mode.el --- Emacs mode for daml
+;;; daml-mode.el --- Emacs mode for daml             -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2016-2022 Bártfai Tamás
 ;; SPDX-License-Identifier: GPL-3.0-or-later
 
-;; Author: Joseph Collard
-;; Package-Requires: ((haskell-mode "16.1") (lsp-mode "7.0") (emacs "25.1"))
+;; Author: Bártfai Tamás
+
+;; Package-Requires: ((emacs "27.1") (dash "2.18.0") (f "0.20.0") (ht "2.3") (haskell-mode "16.1") (lsp-mode "7.0"))
 ;; URL: https://github.com/bartfaitamas/daml-mode
 ;; Package-Version: 0-snapshot
 

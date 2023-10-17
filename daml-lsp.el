@@ -1,4 +1,4 @@
-;;; daml-lsp.el --- LSP client definition for daml
+;;; daml-lsp.el --- LSP client definition for daml             -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2016-2022 Bártfai Tamás
 ;; SPDX-License-Identifier: GPL-3.0-or-later
@@ -10,9 +10,7 @@
 ;;; Code:
 
 (require 'lsp-mode)
-(require 'shr)
 (require 'dash)
-(require 'url-util)
 
 ;;;###autoload
 (defcustom daml-lsp-extra-arguments nil
@@ -65,16 +63,17 @@
          (print (format "Executing script %s"
                         (url-unhex-string script-uri)))))))
 
+(eval-when-compile
+  (lsp-interface (DAMLVirtualResourceChange (:uri :contents) nil)
+                 (DAMLVirtualResourceNote (:uri :note) nil)))
 
-(lsp-interface (DAMLVirtualResourceChange (:uri :contents) nil)
-               (DAMLVirtualResourceNote (:uri :note) nil))
-
-(defun daml-lsp--virtualResource-note (workspace params)
+(defun daml-lsp--virtualResource-note (_workspace params)
   "Display a virtual resource note with PARAMS.  WORKSPACE is ignored."
+
   (-let [(&DAMLVirtualResourceNote :uri :note) params]
     (daml-lsp--display-virtualResource uri note)))
 
-(defun daml-lsp--virtualResource-change (workspace params)
+(defun daml-lsp--virtualResource-change (_workspace params)
   "Display a virtual resource change with PARAMS.  WORKSPACE is ignored."
   (-let [(&DAMLVirtualResourceChange :uri :contents) params]
     (daml-lsp--display-virtualResource uri contents)))

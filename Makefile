@@ -14,13 +14,13 @@ INIT_PACKAGES="(progn \
       (package-install pkg))) \
   )"
 
-all: compile package-lint clean-elc
+all: clean-elc compile package-lint
 
 package-lint:
 	${EMACS} -Q --eval ${INIT_PACKAGES} --eval '(setq package-lint-main-file "daml-mode.el")' -batch -f package-lint-batch-and-exit daml-mode.el daml-lsp.el
 
 compile: clean-elc
-	${EMACS} -Q -eval ${INIT_PACKAGES} -L . -batch -f batch-byte-compile daml-mode.el daml-lsp.el
+	${EMACS} -Q --eval ${INIT_PACKAGES} -L . -batch -f batch-byte-compile daml-mode.el daml-lsp.el
 
 clean-elc:
 	rm -f daml-mode.elc daml-lsp.elc
