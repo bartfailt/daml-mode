@@ -1,11 +1,18 @@
-;;; daml-lsp.el --- LSP client definition for daml             -*- lexical-binding: t; -*-
+;;; daml-lsp.el --- LSP client definition for daml   -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2016-2022 Bártfai Tamás
 ;; SPDX-License-Identifier: GPL-3.0-or-later
 
+;; Author: Bártfai Tamás
+
+;; Package-Requires: ((daml-mode "1.0") (dash "2.18.0") (f "0.20.0") (ht "2.3") (lsp-mode "7.0"))
+;; URL: https://github.com/bartfaitamas/daml-mode
+;; Package-Version: 1.0
+
 ;;; Commentary:
 
-;; Client definition for lsp-mode.
+;; Daml-specific client definition for lsp-mode for interacting with the
+;; Daml SDK-provided lsp server.
 
 ;;; Code:
 
