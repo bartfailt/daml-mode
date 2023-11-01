@@ -1,7 +1,7 @@
 .POSIX:
 EMACS = emacs
 
-NEEDED_PACKAGES = lsp-mode haskell-mode package-lint
+NEEDED_PACKAGES = haskell-mode package-lint
 
 INIT_PACKAGES="(progn \
   (require 'package) \
@@ -18,13 +18,12 @@ all: clean-elc compile package-lint
 
 package-lint:
 	${EMACS} -Q --eval ${INIT_PACKAGES} --eval '(setq package-lint-main-file "daml-mode.el")' -batch -f package-lint-batch-and-exit daml-mode.el
-	${EMACS} -Q --eval ${INIT_PACKAGES} --eval '(setq package-lint-main-file "daml-lsp.el")' -batch -f package-lint-batch-and-exit daml-lsp.el
 
 compile: clean-elc
-	${EMACS} -Q --eval ${INIT_PACKAGES} -L . -batch -f batch-byte-compile daml-mode.el daml-lsp.el
+	${EMACS} -Q --eval ${INIT_PACKAGES} -L . -batch -f batch-byte-compile daml-mode.el
 
 clean-elc:
-	rm -f daml-mode.elc daml-lsp.elc
+	rm -f daml-mode.elc
 
 clean: clean-elc
 
