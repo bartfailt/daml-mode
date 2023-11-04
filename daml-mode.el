@@ -5,15 +5,14 @@
 
 ;; Author: Bártfai Tamás
 
-;; Package-Requires: ((emacs "27.1") (dash "2.18.0") (f "0.20.0") (ht "2.3") (haskell-mode "16.1") (lsp-mode "7.0"))
+;; Package-Requires: ((emacs "27.1") (haskell-mode "16.1"))
 ;; URL: https://github.com/bartfaitamas/daml-mode
-;; Package-Version: 0-snapshot
+;; Package-Version: 1.0
 
 ;;; Commentary:
 
-;; Provides a major mode for editing daml source code, and working
-;; with the daml SDK provided lsp server common core and third-party
-;; Elm tools including the compiler, repl, elm-format and more.
+;; Provides a major mode for editing daml source code; for working
+;; with the Daml SDK provided lsp facilities also install daml-lsp.
 
 ;;; Code:
 (require 'haskell-mode)
