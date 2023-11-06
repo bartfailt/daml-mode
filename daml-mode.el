@@ -1,4 +1,4 @@
-;;; daml-mode.el --- Emacs mode for daml             -*- lexical-binding: t; -*-
+;;; daml-mode.el --- Major mode for daml             -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2016-2022 Bártfai Tamás
 ;; SPDX-License-Identifier: GPL-3.0-or-later
